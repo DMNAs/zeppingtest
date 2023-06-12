@@ -134,7 +134,6 @@ export default function SettingsMenu({ userData: { email, country_code, lang_cod
         }
     }, [texts, navigate, waitLoading])
     const requestLogout = useMemo(() => () => {
-        console.log(menuActions)
         setMenuRequest(menuActions.logout)
     }, [menuActions])
     return (

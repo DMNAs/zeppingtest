@@ -4,16 +4,13 @@ const
     },
     responseErrorHandler = (res) => {
         if (res.ok) return res;
-        console.log(res)
         switch (res.status) {
             case 401:
             case 403:
-                console.log('0007')
                 throw ApiError.UNAUTHORIZED_REQUEST;
             case 404:
                 throw ApiError.NOT_FOUND;
             default:
-                console.log('def-case')
                 if (res.status >= 500) {
                     throw ApiError.SERVER_ERROR;
                 }
@@ -113,7 +110,6 @@ export const Auth = {
     autoConnect: async () => {
         const refreshT = tokenStorage.getRefreshToken()
         tokenStorage.clearTokens();
-        console.log(refreshT)
         if (refreshT) {
             /*
                         //richiedi al server un nuovo JWT dal device_token

@@ -8,7 +8,7 @@ function CountryOption({ data: { value, label }, ...props }) {
     return (
         <Option className='country-option text-gap flex-middle' {...props}>
             <img src={`/flags/${value}.svg`} alt='' ></img>
-            <div class='country-option-inner'>{label}</div>
+            {label}
         </Option>
     )
 }
@@ -23,7 +23,6 @@ export default memo(function CountrySelect({ label = '', className = '', ...prop
                 clearable={false}
                 className="menu-input country-select__container"
                 classNamePrefix='country-select'
-               
                 options={[
                     { value: 'it', label: 'Italia' },
                     { value: 'fr', label: 'Francia' },
