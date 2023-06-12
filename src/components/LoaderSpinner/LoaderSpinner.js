@@ -2,7 +2,8 @@ import { memo } from 'react';
 import './LoaderSpinner.css';
 
 /**
- * 
+ * un componente per mostrare lo stato di attesa dell'applicazione
+ * richiede un Hook ad un contesto booleano, true se il loading è in corso.
  * @param {{loadingHook: ( ) => bool}} param0 
  */
 export default memo(function LoaderSpinner({ loadingHook, className = '', ...props }) {

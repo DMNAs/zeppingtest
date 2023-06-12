@@ -4,6 +4,7 @@ import Select, { components } from 'react-select'
 
 const { Option } = components;
 
+//componente override di react-select per mostrare bandiera e nome nella lista
 function CountryOption({ data: { value, label }, ...props }) {
     return (
         <Option className='country-option text-gap flex-middle' {...props}>
@@ -13,8 +14,10 @@ function CountryOption({ data: { value, label }, ...props }) {
     )
 }
 export default memo(function CountrySelect({ label = '', className = '', ...props }) {
+    //stati per determinare se il campo di input è vuoto (per nascondere la label)
     const [selected, setSelected] = useState(null);
     const [search, setSearch] = useState(null);
+    
     return (
         <div className={`text-field ${className} ${selected || search ? '' : 'empty-field'}`}>
             <label>{label}</label>

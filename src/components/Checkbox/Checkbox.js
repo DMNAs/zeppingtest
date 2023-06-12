@@ -2,7 +2,9 @@ import { memo } from 'react';
 import './Checkbox.css'
 import { ReactComponent as CheckIcon } from '../../resources/icons/check.svg'
 
-
+/**
+ * un input tipo checkbox con icona custom
+ */
 export default memo(function Checkbox({ className = '', ...props }) {
 
     return (

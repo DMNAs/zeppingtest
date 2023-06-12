@@ -1,7 +1,14 @@
 const
+    /**
+     * un semplice sistema di analisi degli errori da una chiamata al server non effettuata
+     */
     fetchErrorHandler = (e) => {
         throw ApiError.NO_CONNECTION
     },
+    /**
+     * un semplice sistema di analisi degli errori da una chiamata al server
+     * @param res - risposta dal server
+     */
     responseErrorHandler = (res) => {
         if (res.ok) return res;
         switch (res.status) {
@@ -20,6 +27,10 @@ const
                 throw ApiError.GENERIC_ERROR
         }
     },
+    /**
+     * esegue una chiamata POST che si aspetta una risposta in JSON.
+     * ritorna un errore standardizzato in caso di fallimento.
+     */
     JSONPost = (url, body) => {
         return fetch(url, {
             method: 'POST',
@@ -38,7 +49,17 @@ const
             })
     }
 
-
+/**
+ * gestisce i token di autenticazione salvati in local e session storage:
+ * jwt: salvato nella sessionStorage, serve per autenticare la sessione
+ * refresh token: salvato nella localStorage a lungo periodo, serve a richiedere un JWT quando questo è scaduto.
+ *         considerazioni: 
+ * - il JWT ha lunga scadenza quindi il refresh token è salvato esclusivamente per ricordare la sessione fuori dalla sessione browser
+ * - non è noto l'indirizzo a cui richiedere un nuovo JWT da un refresh token
+ * - il refresh token è supposto essere un token mantenuto nel database di autenticazione, la cui validità è quindi determinata dal server quando richiesta
+ * 
+ * il JWT è supposto di essere incluso in ogni richiesta autenticata al server; in caso di rifiuto dell'autenticazione, viene usato il refresh token (o viene richiesto un nuovo login) per generare un nuovo JWT valido
+ */
 const tokenStorage = {
     getRefreshToken: () => localStorage.getItem(authInfo.localDeviceTokenKey),
     getJWT: () => sessionStorage.getItem(authInfo.sessionJWTKey),
@@ -95,7 +116,7 @@ const authInfo = {
 
 }
 
-
+/**Errori standard, per referenza*/
 export const ApiError = {
     UNAUTHORIZED_REQUEST: new Error('non autorizzato'),
     NOT_FOUND: new Error('percorso non trovato'),
@@ -107,6 +128,7 @@ export const ApiError = {
     GENERIC_ERROR: new Error('errore')
 }
 export const Auth = {
+    /**cerca di connettersi usano i token memorizzati nel browser storage */
     autoConnect: async () => {
         const refreshT = tokenStorage.getRefreshToken()
         tokenStorage.clearTokens();
@@ -126,10 +148,13 @@ export const Auth = {
                         }
                         throw ApiError.INVALID_RESPONSE
             */
+           //lancia errore per la mancanza dell'url per la POST
             throw ApiError.NOT_FOUND
         }
+        //segnala fallimento
         throw ApiError.UNAUTHENTICATED;
     },
+    /**cerca di autenticarsi con email e password */
     logIn: async ({ email, password, remember }) => {
         //dimentica i login passati su un nuovo tentativo
         tokenStorage.clearTokens(); //await Auth.logOut()
@@ -138,7 +163,7 @@ export const Auth = {
             result,
             device_token,
             token
-        } = await JSONPost(authInfo.loginUrl, { email, password, /*remember to get a refresh key */ })
+        } = await JSONPost(authInfo.loginUrl, { email, password, /*"remember" to get a secure refresh key */ })
 
         if (result && token && (device_token || !remember) && tokenStorage.validateJWT(token)) {
             tokenStorage.setTokens(token, remember && device_token)
@@ -146,6 +171,7 @@ export const Auth = {
         }
         throw ApiError.INVALID_RESPONSE
     },
+    /**rimuove i token salvati, segnala al server di invalidare le sessioni salvate in database*/
     logOut: async () => {
         const refreshT = tokenStorage.getRefreshToken()
         tokenStorage.clearTokens();
@@ -154,6 +180,7 @@ export const Auth = {
             //await JSONPost(authInfo.logoutUrl, { username, password, /*remember to get a refresh key */ })
         }
     },
+    /** recupera il jwt (se necessario anche dopo un autoConnect) e ne restituisce il payload*/
     getUserData: async () => {
         var payload = tokenStorage.getValidJWT();
         if (!payload) {
@@ -165,6 +192,7 @@ export const Auth = {
                     throw ApiError.INVALID_RESPONSE
                 }
             } else {
+                //segnala fallimento
                 throw ApiError.UNAUTHENTICATED;
             }
         }

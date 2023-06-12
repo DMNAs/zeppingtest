@@ -7,6 +7,7 @@ export default memo(function TextField({ label = '', className = '', ...props })
         [filled, setFilled] = useState(false),
         inputRef = useRef(null);
 
+    //nascondi la label se il text field non è vuoto
     useEffect(() => {
         /**@type HTMLInputElement */
         const input = inputRef.current

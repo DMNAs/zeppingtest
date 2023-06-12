@@ -14,6 +14,7 @@ export default memo(function HomePage() {
 
     useEffect(() => {
         var isMounted = true;
+        //recupera i dati utente dal JWT (richiede un auto-connection se il JWT manca, ed è salvato un refresh token di auth)
         waitLoading(
             Auth.getUserData()
                 .then((res) => { if (isMounted) { setUserData(res) } })

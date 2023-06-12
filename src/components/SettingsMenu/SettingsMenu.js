@@ -16,7 +16,7 @@ import { useLoading } from '../../services/LoaderProvider';
 
 
 
-
+//unnededed localization
 const localization = {
     defaultlanguages: {
         "it": "it",
@@ -94,7 +94,9 @@ const parseLangCode = (code, country_code) => {
 
 }
 
-
+/**
+ * ritorna una schermata di conferma per un evento 
+ */
 function MenuConfirm({ className = '', actions: {
     message = '',
     resolve = { name: '', action: () => { } },
@@ -118,6 +120,7 @@ export default function SettingsMenu({ userData: { email, country_code, lang_cod
     const navigate = useNavigate()
     const [texts, _, language_name] = useMemo(() => parseLangCode(lang_code, country_code), [country_code, lang_code])
     const menuActions = useMemo(() => {
+        //informazioni di conferma
         return {
             logout: {
                 message: texts.LogoutConfirm,
@@ -133,9 +136,12 @@ export default function SettingsMenu({ userData: { email, country_code, lang_cod
             }
         }
     }, [texts, navigate, waitLoading])
+
     const requestLogout = useMemo(() => () => {
+        //richiede schermata di conferma
         setMenuRequest(menuActions.logout)
     }, [menuActions])
+    
     return (
         <div>
             {menuRequest && <MenuConfirm actions={menuRequest} />}
@@ -158,7 +164,7 @@ export default function SettingsMenu({ userData: { email, country_code, lang_cod
                     <SettingsLink to="" label={texts.Terms} icon={settings_icon} />
                 </div>
                 <div className='settings-double-link'>
-                    <SettingsLink to="./logout" label={texts.LogOut} icon={settings_icon} />
+                    <SettingsLink to="" label={texts.LogOut} icon={settings_icon} />
                     <SettingsLink to="" label={texts.Delete} icon={settings_icon} />
                 </div>
             </div>}

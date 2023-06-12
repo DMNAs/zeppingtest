@@ -35,6 +35,9 @@ const
             throw new Error("compila tutti i campi per registrarti")
         }
     },
+    /**
+     * submit del form in base ad azione di submit
+     *  */
     formSubmit = async (form, submitType) => {
         const data = Object.fromEntries(new FormData(form));
         if (submitType === 'login') {
@@ -50,9 +53,13 @@ export default memo(function LoginForm({ onLogin = () => { }, className = "", ..
         waitLoading = useLoading(),
         [error, setError] = useState('')
 
+    //onSubmit del form
     const handleSubmit = async (event) => {
+        //previene redirect
         event.preventDefault();
+        //cancella ultimo errore
         setError('');
+        //richiedi autenticazione ->  segnala login / mostra errore
         waitLoading(
             formSubmit(formRef.current, event.nativeEvent.submitter?.value)
                 .then(onLogin)
@@ -61,10 +68,12 @@ export default memo(function LoginForm({ onLogin = () => { }, className = "", ..
     }
     useEffect(() => {
         var isMounted = true;
+        //tentativo di connessione iniziale per la sessione memorizzata
         waitLoading(
             Auth.autoConnect()
                 .then(() => { if (isMounted) { onLogin?.(); setError(''); } })
                 .catch(e => {
+                    //mostra errori se rilevanti al login
                     if (isMounted && (e === ApiError.NO_CONNECTION || e === ApiError.BAD_REQUEST || e === ApiError.SERVER_ERROR || e === ApiError.INVALID_RESPONSE || e === ApiError.NOT_FOUND)) {
                         setError(e.message);
                     }
@@ -91,7 +100,7 @@ export default memo(function LoginForm({ onLogin = () => { }, className = "", ..
             <section className='login-error-section '>
                 {error &&
                     <div className='login-error menu-span menu-gap-row  flex-middle flex-center'>
-                        <ErrorIcon/>{error}
+                        <ErrorIcon />{error}
                     </div>
                 }
             </section>
