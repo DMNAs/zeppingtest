@@ -1,3 +1,7 @@
+.menu-block.select-field {
+    box-shadow: none !important;
+}
+
 .country-select__container {
     padding: 0 !important;
     margin: -1.1rem -1.6rem;
@@ -62,7 +66,9 @@
     opacity: .5 !important;
     transition: opacity .1s ease-out;
 }
-.country-option:hover,.country-option:focus-visible {
+
+.country-option:hover,
+.country-option:focus-visible {
     opacity: 1 !important;
 }
 
@@ -73,14 +79,20 @@
 .country-option:not(:first-child) {
     border-top: .15rem solid var(--background);
 }
+
 .country-option.country-select__option--is-selected {
     color: var(--fontcolor) !important;
     opacity: 1 !important;
 }
 
-.menu-block:has(.country-select__control--menu-is-open) {
+.menu-block.select-field:has(.country-select__control--menu-is-open) {
     border-radius: 10px 10px 0 0 !important;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
     z-index: 1000;
     position: relative;
+}
+
+.menu-block.select-field:focus-within,
+.menu-block.select-field:hover {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
 }

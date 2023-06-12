@@ -17,9 +17,9 @@ export default memo(function CountrySelect({ label = '', className = '', ...prop
     //stati per determinare se il campo di input è vuoto (per nascondere la label)
     const [selected, setSelected] = useState(null);
     const [search, setSearch] = useState(null);
-    
+
     return (
-        <div className={`text-field ${className} ${selected || search ? '' : 'empty-field'}`}>
+        <div className={`text-field ${className} select-field ${selected || search ? '' : 'empty-field'}`}>
             <label>{label}</label>
             <Select {...props}
                 name="country"
