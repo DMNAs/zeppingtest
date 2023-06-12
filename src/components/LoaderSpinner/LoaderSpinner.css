@@ -1,0 +1,63 @@
+.loader {
+    position: fixed;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity ease-in .2s, visibility 0s .2s;
+    pointer-events: none;
+    /*visibility: hidden;*/
+    /*display: none*/
+  }
+  .loader::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: var(--background, white);
+  }
+  .loader-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .loader-spinner svg {
+    stroke-dasharray: 0 6000;
+    stroke-width: 100px;
+    stroke-linecap: round;
+    transition: all .2s ease-out;
+    animation: rotate360 2.5s linear infinite;
+    stroke: var(--maincolor);
+    fill: none;
+  } 
+   .loader-spinner.loading svg {
+    animation: rotate360 2.5s linear infinite;
+  }
+  
+  .loader-spinner svg:last-child {
+    animation-duration: 1s;
+    animation-direction: reverse;
+    stroke: var(--secondcolor);
+  }
+  
+  @keyframes rotate360 {
+    to {
+      rotate: 360deg;
+    }
+  }
+  .loader.loading {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: inherit;
+    transition: opacity .2s ease-out;
+  }
+  .loader-spinner.loading::before {
+    opacity: .85;
+  }
+  .loader.loading .loader-spinner svg {
+    stroke-dasharray: 1400 1400;
+  }
+  
+  .pages:empty+.loader {
+    display: initial;
+  }

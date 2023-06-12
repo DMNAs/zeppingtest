@@ -1,0 +1,30 @@
+.login-form section {
+    width: 100%;
+}
+
+
+.login-form button.menu-span {
+    width: 100%;
+}
+
+
+
+.login-form .login-gap-row {
+    gap: .5rem 2rem;
+}
+
+.login-error-section {
+    min-height: 4rem;
+}
+
+.login-error {
+    min-height: 3rem;
+    overflow: hidden;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    gap: .6rem;
+}
+.login-error svg {
+    height: 2.5rem;
+    fill: #e76666;
+}

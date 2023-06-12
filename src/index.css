@@ -1,13 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@600;700&display=swap');
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: "Cabin", 'Helvetica Neue',
     sans-serif;
+    font-weight: 600;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --maincolor: #2AA9E1;
+  --secondcolor: #00608A;
+  --background: #F5F5F5;
+  --fontcolor: #2B2B2B;
+  --secondfontcolor: #C7C7C7;
+  background-color: var(--background);
+  fill: var(--fontcolor);
+  stroke: var(--fontcolor);
+  color: var(--fontcolor);
+}
+input {  
+  font-family: "Cabin", 'Helvetica Neue',
+    sans-serif;
+}
+button {
+  font-family: "Cabin", 'Helvetica Neue',
+    sans-serif;
+  font-size: 125%;
+  transition: filter .1s ease-out;
+  position: relative;
+  cursor: pointer; 
+  border: none;
+  appearance: none;
+  background: none;
+  font-weight: bold; 
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+a:link {
+  color: var(--maincolor)
 }
+
+a:visited {
+  color: var(--secondcolor)
+}
+
+
+h1 {
+  margin: 0;
+}
+h2 {
+  font-size: 115%;
+  margin: 0;
+  font-weight: bold;
+}
+
+
+

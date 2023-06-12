@@ -1,0 +1,35 @@
+.settings-link.menu-block {
+    padding: 1.25em 1.25em;
+    overflow: hidden;
+    position: relative;
+}
+
+.settings-link.menu-block>* {
+    position: relative;
+}
+
+
+
+.settings-link.menu-block:has(.settings-link-value) {
+    padding: .9em 1.25em;
+}
+
+.settings-link-icon {
+    fill: var(--maincolor)
+}
+
+.settings-link-content {
+    overflow: hidden;
+}
+
+.settings-link-content>* {
+    font-size: 115%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.settings-link-label:has(+ .settings-link-value) {
+    color: var(--secondfontcolor);
+    font-size: 100%;
+}

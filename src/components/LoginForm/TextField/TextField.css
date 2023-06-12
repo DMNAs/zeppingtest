@@ -1,0 +1,30 @@
+
+
+
+
+.text-field {
+    display: grid;
+    grid-template-areas: "area";
+    align-items: center;
+}
+.text-field :is(label, .menu-input) {
+    grid-area: area;
+}
+.text-field label {
+    pointer-events: none;
+    z-index: 3;
+    width: 100%;
+    display: block;
+    color: var(--secondfontcolor);
+    opacity: 0;
+    transition: opacity .15s ease-out, color .15s ease-out;
+}
+.text-field.empty-field label {
+    opacity: 1;
+} 
+.text-field.empty-field:focus-within label {
+    opacity: .4;
+}
+.text-field label:has(+ input:autofill) {
+    opacity: 0;
+}

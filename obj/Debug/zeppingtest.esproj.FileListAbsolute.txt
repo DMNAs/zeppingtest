@@ -1,0 +1,2 @@
+C:\Users\Andrea\source\repos\ZeppingTest\ZeppingTest\obj\Debug\zeppingtest.esproj.SuggestedBindingRedirects.cache
+C:\Users\Andrea\source\repos\ZeppingTest\ZeppingTest\obj\Debug\zeppingtest.esproj.CoreCompileInputs.cache

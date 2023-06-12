@@ -1,0 +1,40 @@
+.settings-menu {
+    font-weight: bold;
+}
+
+.settings-menu :is(h1, h2) {
+    font-size: 1.5rem;
+}
+
+.settings-fast-logout {
+    height: 2em;
+    width: 2em;
+    display: block;
+}
+
+.settings-fast-logout svg {
+    height: 1.5em;
+    width: auto;
+    margin: 0.25em 0;
+    transition: fill .15s ease-in;
+}
+
+.settings-fast-logout:hover svg,
+.settings-fast-logout:focus-within svg {
+    fill: var(--maincolor);
+    transition: fill .15s ease-out;
+}
+
+
+.settings-double-link .menu-block {
+    margin: .25rem 0;
+    border-radius: 0;
+}
+
+.settings-double-link .menu-block:first-of-type {
+    border-radius: 10px 10px 0 0;
+}
+
+.settings-double-link .menu-block:last-of-type {
+    border-radius: 0px 0px 10px 10px;
+}
