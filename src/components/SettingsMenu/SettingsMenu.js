@@ -10,7 +10,7 @@ import { Auth } from "../../services/apiCalls";
 
 
 import settings_icon from '../../resources/icons/settings.svg'
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useLoading } from '../../services/LoaderProvider';
 
 
@@ -97,11 +97,15 @@ const parseLangCode = (code, country_code) => {
 /**
  * ritorna una schermata di conferma per un evento 
  */
-function MenuConfirm({ className = '', actions: {
-    message = '',
-    resolve = { name: '', action: () => { } },
-    reject = { name: '', action: () => { } }
-}, ...props }) {
+function MenuConfirm({
+    className = '',
+    actions: {
+        message = '',
+        resolve = { name: '', action: () => { } },
+        reject = { name: '', action: () => { } }
+    },
+    ...props
+}) {
     return (
         <div className={`menu-column ${className} flex-middle`} {...props}>
             <div className="menu-span">{message}</div>
@@ -114,60 +118,65 @@ function MenuConfirm({ className = '', actions: {
 }
 
 
-export default function SettingsMenu({ userData: { email, country_code, lang_code }, className = '', ...props }) {
-    const [menuRequest, setMenuRequest] = useState(null);
-    const waitLoading = useLoading();
-    const navigate = useNavigate()
-    const [texts, _, language_name] = useMemo(() => parseLangCode(lang_code, country_code), [country_code, lang_code])
-    const menuActions = useMemo(() => {
-        //informazioni di conferma
-        return {
-            logout: {
-                message: texts.LogoutConfirm,
-                resolve: {
-                    action: () => {
-                        waitLoading(
-                            Auth.logOut().finally(() => navigate('/Login'))
-                        )
-                    },
-                    name: texts.LogoutResolve
-                },
-                reject: { action: () => { setMenuRequest(null) }, name: texts.LogoutReject }
-            }
-        }
-    }, [texts, navigate, waitLoading])
+export default memo(
+    function SettingsMenu({ userData: { email, country_code, lang_code }, className = '', ...props }) {
+        const [menuRequest, setMenuRequest] = useState(null);
+        const waitLoading = useLoading();
+        const navigate = useNavigate()
 
-    const requestLogout = useMemo(() => () => {
-        //richiede schermata di conferma
-        setMenuRequest(menuActions.logout)
-    }, [menuActions])
-    
-    return (
-        <div>
-            {menuRequest && <MenuConfirm actions={menuRequest} />}
-            {!menuRequest && <div {...props} className={`settings-menu menu-column ${className}`}>
-                <div className='menu-tag  tag-shift-l row flex-middle'>
-                    <button type='button' className='settings-fast-logout' onClick={requestLogout}>
-                        <LinkSVG direction='right' />
-                    </button>
-                    <h1>{texts.AccountSettings}</h1>
-                </div>
-                <div>
-                    <SettingsLink to="" label={texts.Email} displayValue={email} />
-                    <SettingsLink to="" label={texts.ChangePassword} displayValue='************' />{/*no need to memorize password*/}
-                    <SettingsLink to="" label={texts.Country} displayValue={texts.countries[country_code]} />
-                    <SettingsLink to="" label={texts.Language} displayValue={language_name} />
-                </div>
-                <h2 className='menu-tag tag-shift-l'>{texts.Legal}</h2>
-                <div className='settings-double-link'>
-                    <SettingsLink to="" label={texts.Privacy} icon={settings_icon} />
-                    <SettingsLink to="" label={texts.Terms} icon={settings_icon} />
-                </div>
-                <div className='settings-double-link'>
-                    <SettingsLink to="" label={texts.LogOut} icon={settings_icon} />
-                    <SettingsLink to="" label={texts.Delete} icon={settings_icon} />
-                </div>
-            </div>}
-        </div>
-    )
-}
+        //recupera traduzioni leggendo la lingua scelta dall'utente
+        const [texts, _, language_name] = useMemo(() => parseLangCode(lang_code, country_code), [country_code, lang_code])
+
+
+        //modello per evenutali conferme richieste all'utente (logout)
+        const menuActions = useMemo(() => {
+            return {
+                logout: {
+                    message: texts.LogoutConfirm,
+                    resolve: {
+                        action: () => {
+                            waitLoading(
+                                Auth.logOut().finally(() => navigate('/Login'))
+                            )
+                        },
+                        name: texts.LogoutResolve
+                    },
+                    reject: { action: () => { setMenuRequest(null) }, name: texts.LogoutReject }
+                }
+            }
+        }, [texts, navigate, waitLoading])
+
+        const requestLogout = useMemo(() => () => {
+            //richiede schermata di conferma
+            setMenuRequest(menuActions.logout)
+        }, [menuActions])
+
+        return (
+            <div>
+                {menuRequest && <MenuConfirm actions={menuRequest} />}
+                {!menuRequest && <div {...props} className={`settings-menu menu-column ${className}`}>
+                    <div className='menu-tag  tag-shift-l row flex-middle'>
+                        <button type='button' className='settings-fast-logout' onClick={requestLogout}>
+                            <LinkSVG direction='right' />
+                        </button>
+                        <h1>{texts.AccountSettings}</h1>
+                    </div>
+                    <div>
+                        <SettingsLink to="" label={texts.Email} displayValue={email} />
+                        <SettingsLink to="" label={texts.ChangePassword} displayValue='************' />{/*no need to memorize password*/}
+                        <SettingsLink to="" label={texts.Country} displayValue={texts.countries[country_code]} />
+                        <SettingsLink to="" label={texts.Language} displayValue={language_name} />
+                    </div>
+                    <h2 className='menu-tag tag-shift-l'>{texts.Legal}</h2>
+                    <div className='settings-double-link'>
+                        <SettingsLink to="" label={texts.Privacy} icon={settings_icon} />
+                        <SettingsLink to="" label={texts.Terms} icon={settings_icon} />
+                    </div>
+                    <div className='settings-double-link'>
+                        <SettingsLink to="" label={texts.LogOut} icon={settings_icon} />
+                        <SettingsLink to="" label={texts.Delete} icon={settings_icon} />
+                    </div>
+                </div>}
+            </div>
+        )
+    })

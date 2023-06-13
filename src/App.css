@@ -62,7 +62,9 @@
   display: flex;
   flex-flow: column;
 }
-
+.content-width {
+  width: fit-content;
+}
 .row {
   display: flex;
 }
