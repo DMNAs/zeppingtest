@@ -1,5 +1,5 @@
 #root {
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   width: min(100%, clamp(22rem, 85%, 40rem));
   margin: auto;
@@ -23,7 +23,8 @@
 }
 
 #root::after {
-  flex: 2 1 0;
+  flex: 2 1 10vh;
+  min-height: 10rem;
 }
 
 .aria-only {
